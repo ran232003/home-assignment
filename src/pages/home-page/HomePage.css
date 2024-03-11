@@ -1,0 +1,40 @@
+.main-home-page {
+  display: flex;
+  flex-direction: column;
+  /* border: white solid 1px; */
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 2%;
+}
+.submit-btn {
+  margin-top: 20px;
+}
+.employee-list {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.main-card {
+  margin-right: 10px;
+  margin-top: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+.card-btn {
+  margin-left: 2px;
+}
+.card-btn-div {
+  display: flex;
+  justify-content: center;
+}
+:hover.main-card {
+  cursor: pointer;
+  transform: scale(1.01);
+  transition: all 1s ease;
+}
+
+:hover.main-card {
+  background-color: #98eecc !important;
+  transition: all 1s ease;
+  /* transform: scale(1.3); */
+}
