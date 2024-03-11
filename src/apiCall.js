@@ -22,6 +22,19 @@ export const apiCall = async (method, url, payload) => {
         });
 
         break;
+      case "PUT":
+        console.log(url, payload, method);
+
+        response = await fetch(url, {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+
+        break;
       case "DELETE":
         response = await fetch(url, {
           method: "delete",
@@ -46,5 +59,7 @@ export const apiCall = async (method, url, payload) => {
     }
     data = await response.json();
     return data;
-  } catch (error) {}
+  } catch (error) {
+    return { status: "fail" };
+  }
 };

@@ -6,9 +6,11 @@
   background: white;
   margin-bottom: 10px;
   width: 30%;
+  border: rgb(135, 219, 32) solid 1px;
 }
 .user-details {
   display: flex;
+
   flex-direction: column;
   align-items: center;
   margin-top: 30px;
@@ -19,4 +21,10 @@
   height: 100%;
   display: flex;
   border-right: 1px rgb(179, 176, 176) dotted;
+}
+.main-name-span {
+  word-wrap: break-word;
+}
+.user-detail-main {
+  width: 50%;
 }

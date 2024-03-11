@@ -7,12 +7,17 @@ import { users } from "./dummyData";
 import { useDispatch } from "react-redux";
 import { userAction } from "./store/userSlice";
 import UserPage from "./pages/user-page/UserPage";
+import { GET_EMPLOYEES } from "./URLS";
+import { apiCall } from "./apiCall";
 
 function App() {
   const dispatch = useDispatch();
   const getEmployyes = async () => {
-    let employees = users;
-    dispatch(userAction.setUsers(employees));
+    const data = await apiCall("GET", GET_EMPLOYEES);
+    console.log(data);
+    if (data.status === "ok") {
+      dispatch(userAction.setUsers(data.employees));
+    }
   };
   useEffect(() => {
     getEmployyes();

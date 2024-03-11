@@ -4,10 +4,14 @@ import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
 import * as Yup from "yup";
 import "../HomePage.css";
 import { MdOutlineFileUpload } from "react-icons/md";
+import { apiCall } from "../../../apiCall";
+import { ADD_EMPLOYEE, EDIT_EMPLOYEE } from "../../../URLS";
+import { useDispatch } from "react-redux";
+import { userAction } from "../../../store/userSlice";
 
 const ModalForm = (props) => {
-  const { modalOpen, setModalOpen, user, buttonTitle } = props;
-
+  const { modalOpen, setModalOpen, user, buttonTitle, title } = props;
+  const dispatch = useDispatch();
   const handleClose = () => {
     setModalOpen(false);
   };
@@ -21,32 +25,31 @@ const ModalForm = (props) => {
   const validationSchema = Yup.object().shape({
     fullName: Yup.string()
       .min(4, "fullName must be more then 4 chars")
-      .max(50, "fullName must be under 50 chars")
+      .max(30, "fullName must be under 50 chars")
       .required("Name is required"),
     age: Yup.number()
       .min(18, "min age violated")
       .max(120, "max age violated")
       .required("Age is required"),
     job: Yup.string()
-      .min(4, "job must be more then 4 chars")
-      .max(50, "job must be under 50 chars")
+      .min(1, "job must be more then 4 chars")
+      .max(30, "job must be under 50 chars")
       .required("Job Requierd"),
   });
 
-  const handleFileChange = (event, setFieldValue) => {
-    console.log("handleFileChange");
-
-    setFieldValue("video", event.currentTarget.files[0]);
-    setFieldValue("fileName", event.currentTarget.files[0].name);
-  };
-
-  const handleFileInputClick = (event) => {
-    console.log("handleFileInputClick");
-    event.currentTarget.querySelector('input[type="file"]').click(); // Trigger click on the hidden file input
-  };
-
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     console.log(values);
+    let data;
+    if (buttonTitle === "submit") {
+      data = await apiCall("POST", ADD_EMPLOYEE, values);
+    } else {
+      data = await apiCall("PUT", EDIT_EMPLOYEE, { ...values, _id: user._id });
+    }
+
+    console.log(data);
+    if (data.status === "ok") {
+      dispatch(userAction.setUsers(data.employees));
+    }
     // You can handle form submission here, e.g., sending data to backend
     handleClose();
   };
@@ -54,7 +57,7 @@ const ModalForm = (props) => {
   return (
     <Modal show={modalOpen} onHide={handleClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title className="modal-title my-title">Add Employee</Modal.Title>
+        <Modal.Title className="modal-title my-title">{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Formik
