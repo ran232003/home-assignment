@@ -5,8 +5,12 @@ import ModalForm from "./ModalForm";
 import { useNavigate } from "react-router-dom";
 import { apiCall } from "../../../apiCall";
 import { DELETE_EMPLOYEE } from "../../../URLS";
+import { useDispatch } from "react-redux";
+import { userAction } from "../../../store/userSlice";
 const EmployeeCard = (props) => {
   const navigation = useNavigate();
+  const dispatch = useDispatch();
+
   const { user } = props;
   const [modalOpen, setModalOpen] = useState(false);
   const handleClick = () => {
@@ -19,6 +23,9 @@ const EmployeeCard = (props) => {
   const handleDelete = async () => {
     const deleteUrl = DELETE_EMPLOYEE + user._id;
     let data = await apiCall("DELETE", deleteUrl);
+    if (data.status === "ok") {
+      dispatch(userAction.setUsers(data.employees));
+    }
   };
   return (
     <Card className="main-card" style={{ width: "14rem" }}>
