@@ -9,6 +9,7 @@ import { userAction } from "./store/userSlice";
 import UserPage from "./pages/user-page/UserPage";
 import { GET_EMPLOYEES } from "./URLS";
 import { apiCall } from "./apiCall";
+import NotFound from "./pages/NotFound";
 
 function App() {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage users={users} />} />
         <Route path="/user/:fullName" element={<UserPage users={users} />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );
