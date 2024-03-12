@@ -15,7 +15,6 @@ function App() {
   const dispatch = useDispatch();
   const getEmployyes = async () => {
     const data = await apiCall(GET, GET_EMPLOYEES);
-    // console.log(data, "data");
     if (data.status === "ok") {
       dispatch(userAction.setUsers(data.employees));
     } else {
