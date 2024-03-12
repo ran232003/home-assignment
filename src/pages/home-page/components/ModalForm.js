@@ -5,9 +5,10 @@ import * as Yup from "yup";
 import "../HomePage.css";
 import { MdOutlineFileUpload } from "react-icons/md";
 import { apiCall } from "../../../apiCall";
-import { ADD_EMPLOYEE, EDIT_EMPLOYEE } from "../../../URLS";
+import { ADD_EMPLOYEE, EDIT_EMPLOYEE, POST, PUT } from "../../../URLS";
 import { useDispatch } from "react-redux";
 import { userAction } from "../../../store/userSlice";
+import { toastAction } from "../../../store/toastAction";
 
 const ModalForm = (props) => {
   const { modalOpen, setModalOpen, user, buttonTitle, title } = props;
@@ -38,19 +39,22 @@ const ModalForm = (props) => {
   });
 
   const handleSubmit = async (values) => {
-    console.log(values);
     let data;
     if (buttonTitle === "submit") {
-      data = await apiCall("POST", ADD_EMPLOYEE, values);
+      data = await apiCall(POST, ADD_EMPLOYEE, values);
     } else {
-      data = await apiCall("PUT", EDIT_EMPLOYEE, { ...values, _id: user._id });
+      data = await apiCall(PUT, EDIT_EMPLOYEE, { ...values, _id: user._id });
     }
 
-    console.log(data);
     if (data.status === "ok") {
       dispatch(userAction.setUsers(data.employees));
     }
-    // You can handle form submission here, e.g., sending data to backend
+    dispatch(
+      toastAction.setToast({
+        errorMessage: data.msg,
+        type: data.status === "ok" ? "success" : "error",
+      })
+    ); // You can handle form submission here, e.g., sending data to backend
     handleClose();
   };
 

@@ -3,3 +3,7 @@ export const ADD_EMPLOYEE = "http://localhost:5000/api/employee/add-employee";
 export const EDIT_EMPLOYEE = "http://localhost:5000/api/employee/edit-employee";
 export const DELETE_EMPLOYEE =
   "http://localhost:5000/api/employee/delete-employee/";
+export const GET = "GET";
+export const POST = "POST";
+export const PUT = "PUT";
+export const DELETE = "DELETE";

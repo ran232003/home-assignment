@@ -1,5 +1,4 @@
 export const apiCall = async (method, url, payload) => {
-  console.log(method, url, payload);
   let data, response;
   try {
     switch (method) {

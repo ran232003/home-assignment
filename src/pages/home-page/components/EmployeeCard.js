@@ -7,6 +7,7 @@ import { apiCall } from "../../../apiCall";
 import { DELETE_EMPLOYEE } from "../../../URLS";
 import { useDispatch } from "react-redux";
 import { userAction } from "../../../store/userSlice";
+import { toastAction } from "../../../store/toastAction";
 const EmployeeCard = (props) => {
   const navigation = useNavigate();
   const dispatch = useDispatch();
@@ -17,7 +18,6 @@ const EmployeeCard = (props) => {
     setModalOpen(!modalOpen);
   };
   const handleNav = () => {
-    console.log(user);
     navigation(`/user/${user.fullName}`, { state: { user: user } });
   };
   const handleDelete = async () => {
@@ -26,10 +26,17 @@ const EmployeeCard = (props) => {
     if (data.status === "ok") {
       dispatch(userAction.setUsers(data.employees));
     }
+    dispatch(
+      toastAction.setToast({
+        errorMessage: data.msg,
+        type: data.status === "ok" ? "success" : "error",
+      })
+    );
   };
   return (
     <Card className="main-card" style={{ width: "14rem" }}>
       <Card.Img
+        onClick={handleNav}
         variant="top"
         src={process.env.PUBLIC_URL + "/profile.png"}
         alt="Profile"

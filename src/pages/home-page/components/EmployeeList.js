@@ -6,7 +6,7 @@ const EmployeeList = (props) => {
   return (
     <div className="employee-list">
       {users.map((user) => {
-        return <EmployeeCard user={user} />;
+        return <EmployeeCard key={user._id} user={user} />;
       })}
     </div>
   );

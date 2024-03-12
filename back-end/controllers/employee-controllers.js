@@ -17,7 +17,12 @@ const addEmployee = async (req, res, next) => {
     const employee = new Employee(req.body);
     await employee.save();
     const employees = await Employee.find({});
-    return res.json({ status: "ok", employee, employees });
+    return res.json({
+      status: "ok",
+      employee,
+      employees,
+      msg: "Employee Added",
+    });
   } catch (error) {
     console.log(error);
     const err = new MyError("Somthing went wrong", 500);
@@ -35,7 +40,7 @@ const editEmployee = async (req, res, next) => {
       return next(err);
     }
     const employees = await Employee.find({});
-    return res.json({ status: "ok", employee, employees });
+    return res.json({ status: "ok", employee, employees, msg: "Success Edit" });
   } catch (error) {
     console.log(error);
     const err = new MyError("Somthing went wrong", 500);
@@ -52,7 +57,12 @@ const deleteEmployee = async (req, res, next) => {
       return next(err);
     }
     const employees = await Employee.find({});
-    return res.json({ status: "ok", employee, employees });
+    return res.json({
+      status: "ok",
+      employee,
+      employees,
+      msg: "Success Delete",
+    });
   } catch (error) {
     console.log(error);
     const err = new MyError("Somthing went wrong", 500);
