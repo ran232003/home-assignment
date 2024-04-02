@@ -1,3 +1,10 @@
+do npm install in backend folder and the main folder (frontend and backend).  
+need to install loacl mongodb server:  
+https://www.mongodb.com/try/download/community  
+do npm start in main folder (frontend)  
+do node app.js in backend folder (start backend server)  
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
