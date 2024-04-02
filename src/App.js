@@ -10,8 +10,17 @@ import { apiCall } from "./apiCall";
 import NotFound from "./pages/NotFound";
 import ToastMessage from "./global/ToastMessage";
 import { toastAction } from "./store/toastAction";
+import { io } from "socket.io-client";
 
 function App() {
+  const socket = io("http://localhost:5000");
+  //listing to an event: addEmployee
+  socket.on("changeEmployees", (data) => {
+    console.log(data);
+    if (data.employees) {
+      dispatch(userAction.setUsers(data.employees));
+    }
+  });
   const dispatch = useDispatch();
   const getEmployyes = async () => {
     const data = await apiCall(GET, GET_EMPLOYEES);

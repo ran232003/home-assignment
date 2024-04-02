@@ -1,6 +1,6 @@
 const MyError = require("../models/MyError");
 const Employee = require("../models/EmployeeSchema");
-
+const io = require("../socket");
 const getEmployees = async (req, res, next) => {
   try {
     const employees = await Employee.find({});
@@ -17,6 +17,13 @@ const addEmployee = async (req, res, next) => {
     const employee = new Employee(req.body);
     await employee.save();
     const employees = await Employee.find({});
+    //getting the io object and emmiting a new event that all listners will know
+    let ioObeject = io.getIO();
+    ioObeject.emit("changeEmployees", {
+      action: "create",
+      employee: employee,
+      employees,
+    });
     return res.json({
       status: "ok",
       employee,
@@ -40,6 +47,12 @@ const editEmployee = async (req, res, next) => {
       return next(err);
     }
     const employees = await Employee.find({});
+    let ioObeject = io.getIO();
+    ioObeject.emit("changeEmployees", {
+      action: "create",
+      employee: employee,
+      employees,
+    });
     return res.json({ status: "ok", employee, employees, msg: "Success Edit" });
   } catch (error) {
     console.log(error);
@@ -57,6 +70,12 @@ const deleteEmployee = async (req, res, next) => {
       return next(err);
     }
     const employees = await Employee.find({});
+    let ioObeject = io.getIO();
+    ioObeject.emit("changeEmployees", {
+      action: "create",
+      employee: employee,
+      employees,
+    });
     return res.json({
       status: "ok",
       employee,
